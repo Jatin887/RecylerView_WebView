@@ -4,13 +4,15 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
+
 // adapter code
-class Adapter() :RecyclerView.Adapter<Adapter.FoodViewHolder>(){
-    private val itemTiles = arrayOf("Paneer Tikka","Tandoori Chicken","Juice","Pizza","Burger","Chowmien","French Fries","Pasta","Caramel Chicken","Dosa","Milk Shake","Chole Batura","Veg Thali","Biryani")
+class Adapter() :RecyclerView.Adapter<Adapter.FoodViewHolder>(),Filterable{
+    private val itemTiles = arrayListOf<String>("Paneer Tikka","Tandoori Chicken","Juice","Pizza","Burger","Chowmien","French Fries","Pasta","Caramel Chicken","Dosa","Milk Shake","Chole Batura","Veg Thali","Biryani")
+    var foodFilterList = itemTiles
+
     private val itemImages = intArrayOf(
             R.drawable.panner,
             R.drawable.chicken,
@@ -44,6 +46,32 @@ class Adapter() :RecyclerView.Adapter<Adapter.FoodViewHolder>(){
             "https://cookpad.com/in/recipes/4232834-veg-thali",
             "https://en.wikipedia.org/wiki/Biryani"
     )
+    override fun getFilter():Filter{
+        return object :Filter(){
+            override fun performFiltering(constraint:CharSequence?):FilterResults {
+                val charSearch = constraint.toString()
+                if (charSearch.isEmpty()){
+                    foodFilterList=itemTiles
+                }
+                else{
+                    val resultList = arrayListOf<String>()
+                    for (row in itemTiles){
+                        if (row.toLowerCase(Locale.ROOT).contains(charSearch.toLowerCase(Locale.ROOT)))
+                            resultList.add(row)
+                    }
+                    foodFilterList = resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values=foodFilterList
+                return filterResults
+            }
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                foodFilterList = results?.values as ArrayList<String>
+                notifyDataSetChanged()
+            }
+        }
+    }
     // View holder
     
     inner class FoodViewHolder(itemView: View) :RecyclerView.ViewHolder(itemView){
@@ -61,7 +89,7 @@ class Adapter() :RecyclerView.Adapter<Adapter.FoodViewHolder>(){
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
+    override fun onCreateViewHolder(parent:ViewGroup, viewType: Int): FoodViewHolder {
         val v = LayoutInflater.from(parent.context)
                 .inflate(R.layout.row,parent,false) // this will pass the xml file as variable in view holder
 
@@ -69,7 +97,7 @@ class Adapter() :RecyclerView.Adapter<Adapter.FoodViewHolder>(){
     }
 
     override fun getItemCount(): Int { // this will return size of item
-        return itemTiles.size
+        return foodFilterList.size
     }
 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) { // this will bind view holder and size

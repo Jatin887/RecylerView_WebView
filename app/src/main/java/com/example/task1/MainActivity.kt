@@ -1,8 +1,11 @@
 package com.example.task1
 
+import android.graphics.Color
 import android.os.Bundle
-import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,19 +23,34 @@ class MainActivity : AppCompatActivity() {
         recylerView.layoutManager=layoutManager
         adapter=Adapter()
         recylerView.adapter=adapter
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-    }
+        val displayHomeAsUpEnabled = actionBar?.setDisplayHomeAsUpEnabled(true)
 
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
-            android.R.id.home->{
-                finish()
+        food_search.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
             }
-        }
-        return super.onContextItemSelected(item)
+
+            override fun onQueryTextChange(newText: String?) :Boolean{
+                (adapter as Adapter).filter.filter(newText)
+                return false
+            }
+        })
+        val cancelIcon = food_search.findViewById<ImageView>(R.id.search_close_btn)
+        cancelIcon.setColorFilter(Color.BLUE)
+        val textView = food_search.findViewById<TextView>(R.id.search_src_text)
+        textView.setTextColor(Color.WHITE)
+        val searchIcon = food_search.findViewById<ImageView>(R.id.search_mag_icon)
+        searchIcon.setColorFilter(Color.BLUE)
+
+
     }
 
-}
+
+
+
+    }
+
+
+
 
 
