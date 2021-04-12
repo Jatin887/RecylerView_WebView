@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         food_search.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
+                return false
             }
 
             override fun onQueryTextChange(newText: String?) :Boolean{
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         val cancelIcon = food_search.findViewById<ImageView>(R.id.search_close_btn)
         cancelIcon.setColorFilter(Color.BLUE)
         val textView = food_search.findViewById<TextView>(R.id.search_src_text)
-        textView.setTextColor(Color.WHITE)
+        textView.setTextColor(Color.RED)
         val searchIcon = food_search.findViewById<ImageView>(R.id.search_mag_icon)
         searchIcon.setColorFilter(Color.BLUE)
 
