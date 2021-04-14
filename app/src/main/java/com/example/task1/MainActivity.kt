@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
 
     )
-    var itemTiles= arrayListOf<String>("Paneer Tikka","Tandoori Chicken","Juice","Pizza","Burger","Chowmien","French Fries","Pasta","Caramel Chicken","Dosa","Milk Shake","Chole Batura","Veg Thali","Biryani")
+
 
 
 
