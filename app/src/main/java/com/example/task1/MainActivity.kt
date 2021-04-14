@@ -12,7 +12,33 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private  var layoutManager: RecyclerView.LayoutManager?= null
-    private  var adapter: RecyclerView.Adapter<com.example.task1.Adapter.FoodViewHolder>? =null
+    private lateinit var adapter:Adapter
+    data class Product(
+         var name:String,
+         var image:Int,
+         var url:String
+    )
+    private  var productList= arrayListOf(
+                Product("Paneer Tikka",R.drawable.panner,"https://www.cookwithmanali.com/paneer-tikka/"),
+                Product("Tandoori Chicken",R.drawable.chicken,"https://www.britannica.com/topic/tandoori-chicken"),
+                Product("Juice",R.drawable.jucie,"https://www.all-about-juicing.com/"),
+                Product("Pizza",R.drawable.pizza,"https://www.eatthis.com/pizza-facts/"),
+                Product("Burger",R.drawable.burger,"https://en.wikipedia.org/wiki/Burger"),
+                Product("Chowmien",R.drawable.chowmien,"https://en.wikipedia.org/wiki/Chow_mein"),
+                Product("French Fries", R.drawable.fries,"https://en.wikipedia.org/wiki/French_fries"),
+                Product("Pasta",R.drawable.pasta,"https://www.cookwithmanali.com/paneer-tikka/"),
+                Product("Caramel Chicken",R.drawable.caramelchicken,"https://hebbarskitchen.com/masala-pasta-recipe-indian-pasta-recipes/"),
+                Product("Dosa",R.drawable.dosa,"https://en.wikipedia.org/wiki/Dosa"),
+                Product("Milk Shake",R.drawable.shake,"https://en.wikipedia.org/wiki/Milkshake"),
+                Product("Chole Batura",R.drawable.cholebatura,"https://www.vegrecipesofindia.com/chole-bhature/"),
+                Product("Veg Thali",R.drawable.vegthali,"https://cookpad.com/in/recipes/4232834-veg-thali"),
+                Product("Biryani",R.drawable.biryani,"https://en.wikipedia.org/wiki/Biryani")
+
+
+    )
+    var itemTiles= arrayListOf<String>("Paneer Tikka","Tandoori Chicken","Juice","Pizza","Burger","Chowmien","French Fries","Pasta","Caramel Chicken","Dosa","Milk Shake","Chole Batura","Veg Thali","Biryani")
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         layoutManager = LinearLayoutManager(this)
         recylerView.layoutManager=layoutManager
-        adapter=Adapter()
+        adapter= Adapter(productList)
         recylerView.adapter=adapter
         val displayHomeAsUpEnabled = actionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -31,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?) :Boolean{
-                (adapter as Adapter).filter.filter(newText)
+                adapter.filter.filter(newText)
                 return false
             }
         })
