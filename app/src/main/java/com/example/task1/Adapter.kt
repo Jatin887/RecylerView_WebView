@@ -68,7 +68,7 @@ class Adapter(private var item: ArrayList<MainActivity.Product>) :RecyclerView.A
         val urlss = item[position].url
 
         holder.itemView.setOnClickListener{v:View -> Unit // click listner for each item
-            Toast.makeText(v.context,"You clicked on  ${item[position].image} ", Toast.LENGTH_SHORT).show()
+            Toast.makeText(v.context,"You clicked on  ${item[position].name} ", Toast.LENGTH_SHORT).show()
             val intent = Intent(holder.itemView.context,NewActivity::class.java) // this will pass particular url attach with item
             intent.putExtra("URI",urlss)
             holder.itemView.context.startActivity(intent)
